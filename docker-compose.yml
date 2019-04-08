@@ -3,7 +3,7 @@ services:
   redis:
       image: wangyongdong/docker-redis:latest
       ports:
-        - "36379:6379"
+        - "36362:6379"
       networks:
         - net-redis
       volumes:
@@ -11,14 +11,14 @@ services:
         - ./data/redis/conf/redis.conf:/usr/local/redis/redis.conf    # Configuration file
         - ./data/redis/logs/redis.log:/usr/local/logs/redis.log       # logs file
       restart: always
-      container_name: redis
+      container_name: antDP-redis
 
   mysql:
       depends_on:
         - redis
       image: wangyongdong/docker-mysql:latest
       ports:
-        - "33306:3306"
+        - "3362:3306"
       networks:
         - net-mysql
       volumes:
@@ -28,14 +28,14 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: 123456
       restart: always
-      container_name: mysql
+      container_name: antDP-mysql
 
   php:
       depends_on:
         - mysql
       image: wangyongdong/docker-php:latest
       ports:
-        - "9000:9000"
+        - "9062:9000"
 #      links:
 #        - "mysql"
 #        - "redis"
@@ -50,15 +50,15 @@ services:
         - ./data/php/logs/error.log:/etc/php7/logs/error.log
         - ./data/www:/usr/local/nginx/html
       restart: always
-      container_name: php
+      container_name: antDP-php
 
   nginx:
       depends_on:
         - php
       image: wangyongdong/docker-nginx:latest
       ports:
-        - "80:80"
-        - "443:443"
+        - "8062:80"
+        - "4462:443"
 #      links:
 #        - "php"
       networks:
@@ -70,20 +70,20 @@ services:
         - ./data/nginx/conf/vhost:/usr/local/nginx/conf/vhost
         - ./data/nginx/cert:/usr/local/nginx/cert
       restart: always
-      container_name: nginx
+      container_name: antDP-nginx
 
   nodejs:
         depends_on:
           - nginx
         image: wangyongdong/docker-nodejs:latest
         ports:
-          - "3000:3000"
+          - "3062:3000"
         networks:
           - net-nodejs
         volumes:
           - ./data/www:/app/src
         restart: always
-        container_name: nodejs
+        container_name: antDP-nodejs
 
 networks:
   net-php:
